@@ -17,6 +17,12 @@ importers:
       '@fastify/sensible':
         specifier: ^6.0.0
         version: 6.0.1
+      close-with-grace:
+        specifier: ^2.1.0
+        version: 2.1.0
+      dotenv:
+        specifier: ^16.4.7
+        version: 16.4.7
       fastify:
         specifier: ^5.0.0
         version: 5.2.0
