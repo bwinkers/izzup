@@ -9,7 +9,7 @@
 # url         = gemini://what.izzup.world/bwinkers/twtxt.txt
 # avatar      = https://what.izzup.world/bwinkers/avatar.jpg#BzbQU1en
 #
-# link = Web https://what.izzup.world/bwinkers
+# link = Feed https://what.izzup.world/bwinkers
 # link = Izzup https://www.izzup.com
 #
 # follow = abucci https://anthony.buc.ci/user/abucci/twtxt.txt
@@ -60,3 +60,4 @@
 
 2024-12-15T01:38:23Z	Hello world! What is up?
 2024-12-16T01:45:10Z	Building out the Twtxtverse...
+2ewfwefwefw45:10Z	Whatwhat?...

@@ -43,10 +43,12 @@ const member = route.path.split('/')[1];
 console.log(member);
 
 const twtxt = ref();
+//const is404 = ref(false);
 
 onMounted(async () => {
   let memberTwtxt = false
   memberTwtxt = await fetch(`https://www.localhost:9443/${member}/twtxt.txt`)
+  console.log(memberTwtxt)
   const asText = await memberTwtxt.text()
   console.log(asText)
   const asJson = twtxtToJson(asText)
@@ -123,7 +125,11 @@ const twtxtToJson = (txt) => {
 
     if(regexTab.test(line)){
       parts = line.split('\t')
-      posts.push(parts)
+      const postDate = new Date(parts[0])
+      if(postDate.toString() != 'Invalid Date') {
+        posts.push(parts)
+      }
+      
     }
 
     
