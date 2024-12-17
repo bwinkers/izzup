@@ -8,11 +8,13 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 // Pass --options via CLI arguments in command to enable these options.
-export const options = {}
+export const options = {  exposeRoute: true }
 
 export default async function (fastify, opts) {
   // Place here your custom code!
   await fastify.register(config);
+
+  // await fastify.register(import('@fastify/swagger'))
 
   // Do not touch the following lines
 
@@ -30,4 +32,8 @@ export default async function (fastify, opts) {
     dir: path.join(__dirname, 'routes'),
     options: Object.assign({}, opts)
   })
+
+  // await fastify.ready()
+  // fastify.swagger()
+
 }

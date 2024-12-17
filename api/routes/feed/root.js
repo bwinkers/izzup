@@ -4,52 +4,33 @@ export default async function (fastify, opts) {
   fastify.post('/', 
     {
       schema: {
-        description: 'post some data',
-        tags: ['user', 'code'],
-        summary: 'qwerty',
-        security: [{ apiKey: [] }],
-        params: {
-          type: 'object',
-          properties: {
-            id: {
-              type: 'string',
-              description: 'user id'
-            }
-          }
-        },
+        description: 'Create a new feed',
+        tags: ['feed'],
+        summary: 'Allow adding a new feed',
         body: {
           type: 'object',
           properties: {
-            hello: { type: 'string' },
-            obj: {
-              type: 'object',
-              properties: {
-                some: { type: 'string' }
-              }
-            }
+            nick: { type: 'string' },
+            userType: { type: 'string' } // person | entity
           }
         },
         response: {
-          201: {
+          200: {
             description: 'Successful response',
             type: 'object',
             properties: {
-              hello: { type: 'string' }
-            }
-          },
-          default: {
-            description: 'Default response',
-            type: 'object',
-            properties: {
-              foo: { type: 'string' }
+              createdAt: { type: 'string' },
+              url: { type: 'string' }
             }
           }
         }
       }
     },
     async function (request, reply) {
-    console.log(request.body)
-    return 'this is an example'
+    return {
+      createdAt: new Date().toISOString(),
+      url: `https://www.izzup.com/person/${request.body.nick}`
+    }
   })
   
 }
