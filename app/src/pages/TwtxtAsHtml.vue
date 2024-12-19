@@ -47,7 +47,7 @@ const twtxt = ref();
 
 onMounted(async () => {
   let memberTwtxt = false
-  memberTwtxt = await fetch(`https://www.localhost:9443/${member}/twtxt.txt`)
+  memberTwtxt = await fetch(`https://what.izzup.world/${member}/twtxt.txt`)
   console.log(memberTwtxt)
   const asText = await memberTwtxt.text()
   console.log(asText)

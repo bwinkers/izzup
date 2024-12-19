@@ -6,11 +6,14 @@ const twtxt = ref();
 onMounted(async () => {
   let memberTwtxt = false
   memberTwtxt = await fetch('twtxt.txt')
-  console.log(memberTwtxt)
+  // console.log(memberTwtxt)
   const asText = await memberTwtxt.text()
-  console.log(asText)
+  // console.log(asText)
   const asJson = twtxtToJson(asText)
   twtxt.value = asJson
+
+  // const imgUrl = new URL('../avatar.jpeg', import.meta.url).href
+  // console.log('IMG URL', imgUrl)
 })
 
 const regexMeta = new RegExp("(^#.*=)")
@@ -30,9 +33,9 @@ const twtxtToJson = (txt) => {
   const follows = []
   const posts = []
 
-  console.log(txt)
+  // console.log(txt)
   const lines = txt.split('\n')
-  console.log(lines)
+  // console.log(lines)
 
   let parts = []
 
@@ -41,14 +44,14 @@ const twtxtToJson = (txt) => {
     //console.log(line)
     // Check if comment or date.
     if(regexMeta.test(line)){
-      console.log(line)
+      // console.log(line)
       // Trim off first comment character
       const metaDef = line.slice(1)
       // Split on '=' 
       const [n, v] = metaDef.split("=", 2)
       const name = n.trim()
       const val = v.trim()
-      console.log(`${name} => ${val}`)
+      // console.log(`${name} => ${val}`)
       switch(name) {
         case 'nick':
           profile.nick = val
@@ -108,10 +111,10 @@ const twtxtToJson = (txt) => {
 
     <main>
       
-      <img src="/avatar.jpg"> 
+      <img :src="twtxt.profile.avatar"> 
       
       <h2>{{ twtxt.profile.nick }}</h2>  
-      <h3>Twtxt feed: <a href="twtxt.profile.urls[0]">{{ twtxt.profile.urls[0] }}</a></h3>
+      <h3>Twtxt feed: <a :href="twtxt.profile.urls[0]">{{ twtxt.profile.urls[0] }}</a></h3>
       
       <h3>Links</h3>
       <ul>
