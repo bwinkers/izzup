@@ -11,8 +11,12 @@
   },
   "dependencies": {
     "@mdi/font": "7.4.47",
+    "@noble/hashes": "^1.6.1",
+    "base32-encode": "^2.0.0",
+    "luxon": "^3.5.0",
     "roboto-fontface": "*",
     "vue": "^3.4.31",
+    "vue-markdown-render": "^2.2.1",
     "vuetify": "^3.6.14"
   },
   "devDependencies": {

@@ -38,7 +38,7 @@
             <v-expansion-panel-text>
               <v-list>
                 <v-list-item v-for="item, ix in twtxt.follows" :key="ix">
-                  <a :href="`/at/?url=${item[1]}`">{{ item[0] }}</a>
+                  <a :href="`/?url=${item[1]}`">{{ item[0] }}</a>
                 </v-list-item>
               </v-list>
             </v-expansion-panel-text>
@@ -46,7 +46,7 @@
         </v-expansion-panels>
       </v-navigation-drawer>
 
-      <v-app-bar><div class="text-h4 px-5 font-italic">{{ twtxt.profile.tagline }}</div></v-app-bar>
+      <v-app-bar><div class="text-h4 px-5 font-italic">{{ twtxt.profile.tagline ? twtxt.profile.tagline : remoteFeed ? remoteFeed : `${twtxt.profile.nick} Feed` }}</div></v-app-bar>
 
       <v-main class="d-flex justify-center" style="min-height: 600px;">
         <div class="d-flex flex-column v-col-12 ga-2 pa-4">
@@ -55,7 +55,7 @@
               {{ item[0] }}
             </v-card-subtitle>
             <v-card-item>
-              {{ item[1] }}
+              <vue-markdown :source="item[1]" />
             </v-card-item>
           </v-card>
         </div>
@@ -70,6 +70,8 @@
 <script setup>
 import { ref, onMounted } from "vue"
 import { useRoute } from "vue-router"
+
+import VueMarkdown from 'vue-markdown-render'
 
 import { useIzzup } from "../composables/izzup.js"
 

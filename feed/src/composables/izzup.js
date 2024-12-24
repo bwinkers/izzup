@@ -1,3 +1,8 @@
+
+import { blake2b } from '@noble/hashes/blake2b';
+import base32Encode from 'base32-encode'
+import { DateTime } from "luxon";
+
 const useIzzup = () => {
 
   const fetchFeed = (url) => {
@@ -116,6 +121,26 @@ const useIzzup = () => {
       .map((b) => b.toString(16).padStart(2, "0"))
       .join(""); // convert bytes to hex string
     return hashHex;
+  }
+
+  const base32 = (payload) => {
+    return base32Encode(Buffer.from(payload), 'RFC3548', { padding: false });
+  }
+  
+  const b2params = { dkLen: 32 };
+
+  const blake2b256 = (payload) => {
+    return  blake2b(payload, b2params);
+  }
+  
+  const formatRFC3339 = (text) => {
+    return DateTime.fromISO(text, { setZone: true, zone: 'utc' })
+      .toFormat("yyyy-MM-dd'T'HH:mm:ssZZ")
+      .replace(/\+00:00$/, 'Z');
+  }
+
+  const twtHash = (feed, post) => {
+    
   }
   
 
