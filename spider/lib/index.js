@@ -171,8 +171,6 @@ const cacheFeed = async (url, dir) => {
 
   // Full filepath
   const fullPath = path.resolve(`${dir}/feeds/${feedHash}/twtxt.txt`)
-  
-  let result = fullPath
 
   if (!fileExists(fullPath)) {
 
@@ -185,11 +183,8 @@ const cacheFeed = async (url, dir) => {
       Readable.fromWeb(resp.body).pipe(writer);
     } else {
       console.log(`Failed fetching ${url}`)
-      result = false
-    }
-    
-    return result
-  
+      writeFileSync(`${dir}/feeds/${feedHash}/twtxt.txt`, JSON.stringify({ "failedAt": new Date().toISOString(), url: url }))
+    }  
   } 
 }
 

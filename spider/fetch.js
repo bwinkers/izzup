@@ -22,5 +22,4 @@ if(!dirExists(args.dir)) {
 // Process the feed
 const result = cacheFeed(args.url, args.dir)
 
-console.log(`Fetching\t${args.url} \n to \t${result}`)
 

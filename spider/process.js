@@ -46,7 +46,8 @@ const processBatch = async ( limit, dir ) => {
     let ix = 0
     while (ix < limit) {
         ix++
-        console.log(`\nJOB NUMBER: ${ix}`)
+        const timestamp = new Date().toISOString()
+        console.log(`\nJOB NUMBER: ${ix} - ${timestamp}`)
         const jobId = getRandomJobId(dir)
         const jobFilename = `${dir}/tasks/processing/${jobId}.json`
 
