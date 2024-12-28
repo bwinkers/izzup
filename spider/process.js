@@ -1,8 +1,9 @@
 import 'dotenv/config'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
+import { renameSync } from "fs"
 
-import { getJobFilename, dirExists, readFile, cacheFeed, createJob, hashText, processJob } from "./lib/index.js"
+import { getRandomJobId, dirExists, finishProcessing, processJob } from "./lib/index.js"
 
 const args = yargs(hideBin(process.argv))
     .option('dir', {
@@ -20,32 +21,52 @@ const args = yargs(hideBin(process.argv))
     .env()
     .parse();
 
-if(!dirExists(args.dir)) {
+if (!dirExists(args.dir)) {
     console.log('ABORTING: The cache dir must be defined and must already exist.')
     process.exit(1)
 }
-let jobFilename
-let ix = 1
 
+const processOne = async (jobId, dir ) => {
+    console.log(`Processing jobId: ${jobId}`)
+    const jobFilename = `${dir}/tasks/pending/${jobId}.json`
+    const processFilename = `${dir}/tasks/processing/${jobId}.json`
+    renameSync(jobFilename, processFilename)
 
+    try {
+        await processJob(processFilename, dir)
+        finishProcessing(jobId, 'completed', dir)
+    } catch (e) {
+        console.log(e)
+        finishProcessing(jobId, 'failed', dir)
+    }
+}
 
-if(args.jobId) {
-  console.log(`Processing jobId: ${args.jobId}`)  
-  jobFilename = `${args.dir}/tasks/pending/${args.jobId}.json`
-  processJob(jobFilename, args.dir)
-} else {
-    console.log(`Processing max ${args.limit} jobs`)
-    while(ix <= args.limit) {
+const processBatch = async ( limit, dir ) => {
+    console.log(`Processing batch of max ${limit} jobs`)
+    let ix = 0
+    while (ix < limit) {
+        const jobId = getRandomJobId(dir)
+        const jobFilename = `${dir}/tasks/processing/${jobId}.json`
+
         try {
-            jobFilename = getJobFilename(args.dir)
-            processJob(jobFilename, args.dir)
+            await processJob(jobFilename, dir)
+            finishProcessing(jobId, 'completed', dir)
         } catch (e) {
             console.log(e)
+            finishProcessing(jobId, 'failed', dir)
         }
 
         ix++
     }
 }
+
+if (args.jobId) {
+    processOne(args.jobId, args.dir)
+} else {
+    processBatch(args.limit, args.dir)
+}
+
+
 
 
 
