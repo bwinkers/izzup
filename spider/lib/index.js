@@ -31,12 +31,10 @@ const verifyReqDirs = (rootDir) => {
 
 const ensureDir = (dir) => {
   if (!existsSync(dir)) {
-    console.log(`${dir} not found...`)
-    mkdirSync(dir, { recursive: true })
-    console.log(`${dir} CREATED.`)
-  } else {
-    console.log(`${dir} found.`)
-  }
+    //console.log(`${dir} not found...`)
+   mkdirSync(dir, { recursive: true })
+    //console.log(`${dir} CREATED.`)
+  } 
 }
 
 const feedByHash = (hash, dir) => {
@@ -228,7 +226,7 @@ const getRandomJobId = (dir) => {
 
     renameSync(jobFullPath, jobProcessingPath)
 
-    console.log(`Moved ${jobFullPath} to ${jobProcessingPath}`)
+    console.log(`Moved\t${jobFullPath}\n to \t${jobProcessingPath}`)
 
     return jobId
   }
@@ -237,13 +235,15 @@ const getRandomJobId = (dir) => {
 const finishProcessing = (jobId, status, dir) => {
   const currentPath = `${dir}/tasks/processing/${jobId}.json`
 
+  const currentProcess = JSON.parse(readFileSync(currentPath, 'utf8')).process
+
   const timestamp = new Date().toISOString()
 
-  const resultPath = `${dir}/tasks/${status}/${jobId}-${timestamp}.json`
+  const resultPath = `${dir}/tasks/${status}/${jobId}-${currentProcess}-${timestamp}.json`
 
   renameSync(currentPath, resultPath)
 
-  console.log(`Moved ${currentPath} to ${resultPath}`)
+  console.log(`Moved\t${currentPath}\n to \t${resultPath}`)
 
   return resultPath
 }
@@ -266,7 +266,7 @@ const processJob = async (jobFilename, dir) => {
     case 'fetch':
 
       let result = await cacheFeed(job.url, dir)
-      console.log('Result: ', result)
+
       if(!result) {
         throw new Error('Unable to cache feed')
       }
@@ -292,12 +292,10 @@ const spiderFeed = (url, dir) => {
     // Use the locally cached version of the feed
     const cachedFeed = feedJsonByHash(feedHash, dir)
 
-    console.log(`Reading\t${url} \n from \t${dir}`)
-
-    console.log(cachedFeed.follows)
+    console.log(`Reading\t${url} \n from \t${dir}/feeds/${feedHash}`)
 
     for (const feed of cachedFeed.follows) {
-      console.log(feed[1])
+
 
       // Get the followed feeds hash
       const followedHash = hashText(feed[1])

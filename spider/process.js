@@ -45,6 +45,8 @@ const processBatch = async ( limit, dir ) => {
     console.log(`Processing batch of max ${limit} jobs`)
     let ix = 0
     while (ix < limit) {
+        ix++
+        console.log(`\nJOB NUMBER: ${ix}`)
         const jobId = getRandomJobId(dir)
         const jobFilename = `${dir}/tasks/processing/${jobId}.json`
 
@@ -55,8 +57,6 @@ const processBatch = async ( limit, dir ) => {
             console.log(e)
             finishProcessing(jobId, 'failed', dir)
         }
-
-        ix++
     }
 }
 
