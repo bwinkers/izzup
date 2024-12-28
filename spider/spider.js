@@ -43,7 +43,7 @@ for(const feed of cachedFeed.follows) {
 
     if(!fileExists(followedCacheFile)) {
         console.log('Creating process job to fetch a new feed')
-        const content = { fetch: feed[1] }
+        const content = { process: 'fetch', url: feed[1] }
 
         createJob(followedHash, JSON.stringify(content), args.dir)
     }
