@@ -99,7 +99,7 @@ onMounted(async () => {
     cacheId = await izzup.hashText(remoteFeed)
   }
 
-  const twtxtUrl = 'https://what.izzup.world/bwinkers/twtxt.txt'
+  const twtxtUrl = member ? 'twtxt.txt' : remoteFeed ? `/cache/${cacheId}/twtxt.txt` : '/twtxt.txt'
 
   console.log('twxtxtUrl', twtxtUrl)
 
