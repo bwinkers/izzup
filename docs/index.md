@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "Izzup Social"
+  name: "Izzup"
   tagline: "Built on twtxt using open source code"
   text: "Own your identity"
   actions:
